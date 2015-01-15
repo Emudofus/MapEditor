@@ -409,6 +409,12 @@ void MapReaderPrivate::readTilesetTile(Tileset *tileset)
     while (xml.readNextStartElement()) {
         if (xml.name() == QLatin1String("properties")) {
             tile->mergeProperties(readProperties());
+        } else if (xml.name() == QLatin1String("imageoffset")) {
+            const QXmlStreamAttributes oa = xml.attributes();
+            int x = oa.value(QLatin1String("x")).toString().toInt();
+            int y = oa.value(QLatin1String("y")).toString().toInt();
+            tile->setImageOffset(QPointF(x, y));
+            xml.skipCurrentElement();
         } else if (xml.name() == QLatin1String("image")) {
             QString source = xml.attributes().value(QLatin1String("source")).toString();
             if (!source.isEmpty())

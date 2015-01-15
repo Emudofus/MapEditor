@@ -39,6 +39,7 @@ Tile::Tile(const QPixmap &image, int id, Tileset *tileset):
     mTileset(tileset),
     mImage(image),
     mTerrain(-1),
+    mImageOffset(0, 0),
     mTerrainProbability(-1.f),
     mObjectGroup(0),
     mCurrentFrameIndex(0),
@@ -53,6 +54,7 @@ Tile::Tile(const QPixmap &image, const QString &imageSource,
     mImage(image),
     mImageSource(imageSource),
     mTerrain(-1),
+    mImageOffset(0, 0),
     mTerrainProbability(-1.f),
     mObjectGroup(0),
     mCurrentFrameIndex(0),
@@ -90,6 +92,11 @@ void Tile::setTerrain(unsigned terrain)
 
     mTerrain = terrain;
     mTileset->markTerrainDistancesDirty();
+}
+
+void Tile::setImageOffset(QPointF imageOffset)
+{
+    mImageOffset = imageOffset;
 }
 
 /**

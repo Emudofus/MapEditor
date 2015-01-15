@@ -36,6 +36,8 @@
 #include <QPainter>
 #include <QVector2D>
 
+#include <QDebug>
+
 using namespace Tiled;
 
 QRectF MapRenderer::boundingRect(const ImageLayer *imageLayer) const
@@ -115,11 +117,16 @@ void CellRenderer::render(const Cell &cell, const QPointF &pos, Origin origin)
     const QPixmap &image = cell.tile->currentFrameImage();
     const QSizeF size = image.size();
     const QPoint offset = cell.tile->tileset()->tileOffset();
+    const QPointF imageOffset = cell.tile->imageOffset();
     const QPointF sizeHalf = QPointF(size.width() / 2, size.height() / 2);
 
+    // Cell size is 86x43, get half size to set position correctly.
+    float cellHalfWidth = 43;
+    float cellHalfHeight = 21.5;
+
     QPainter::PixmapFragment fragment;
-    fragment.x = pos.x() + offset.x() + sizeHalf.x();
-    fragment.y = pos.y() + offset.y() + sizeHalf.y() - size.height();
+    fragment.x = pos.x() + offset.x() + sizeHalf.x() + cellHalfWidth - imageOffset.x();
+    fragment.y = pos.y() + offset.y() + sizeHalf.y() - cellHalfHeight - imageOffset.y();
     fragment.sourceLeft = 0;
     fragment.sourceTop = 0;
     fragment.width = size.width();

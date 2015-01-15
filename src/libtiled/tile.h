@@ -142,6 +142,16 @@ public:
     void setTerrain(unsigned terrain);
 
     /**
+     * Returns the image offset to set correct position.
+     */
+    QPointF imageOffset() const { return mImageOffset; }
+
+    /**
+     * Set the image offset for tile position.
+     */
+    void setImageOffset(QPointF imageOffset);
+
+    /**
      * Returns the probability of this terrain type appearing while painting (0-100%).
      */
     float terrainProbability() const { return mTerrainProbability; }
@@ -167,6 +177,7 @@ private:
     QPixmap mImage;
     QString mImageSource;
     unsigned mTerrain;
+    QPointF mImageOffset;
     float mTerrainProbability;
     ObjectGroup *mObjectGroup;
 
