@@ -45,6 +45,7 @@ MapView::MapView(QWidget *parent, Mode mode)
     , mZoomable(new Zoomable(this))
 {
     setTransformationAnchor(QGraphicsView::AnchorViewCenter);
+    setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
 #ifdef Q_OS_MAC
     setFrameStyle(QFrame::NoFrame);
 #endif
