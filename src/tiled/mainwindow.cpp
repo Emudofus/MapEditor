@@ -150,8 +150,8 @@ MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags)
     QIcon redoIcon(QLatin1String(":images/16x16/edit-redo.png"));
     QIcon undoIcon(QLatin1String(":images/16x16/edit-undo.png"));
 
-    QIcon tiledIcon(QLatin1String(":images/16x16/tiled.png"));
-    tiledIcon.addFile(QLatin1String(":images/32x32/tiled.png"));
+    QIcon tiledIcon(QLatin1String(":images/16x16/sydoria.png"));
+    tiledIcon.addFile(QLatin1String(":images/32x32/sydoria.png"));
     setWindowIcon(tiledIcon);
 
     // Add larger icon versions for actions used in the tool bar
@@ -254,8 +254,8 @@ MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags)
     mCommandButton = new CommandButton(this);
     mUi->mainToolBar->addWidget(mCommandButton);
 
-    mUi->menuMap->insertAction(mUi->actionOffsetMap,
-                               mActionHandler->actionCropToSelection());
+    /*mUi->menuMap->insertAction(mUi->actionOffsetMap,
+                               mActionHandler->actionCropToSelection());*/
 
     mRandomButton = new QToolButton(this);
     mRandomButton->setToolTip(tr("Random Mode"));
@@ -407,16 +407,16 @@ MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags)
     toolBar->addAction(mToolManager->registerTool(mBucketFillTool));
     toolBar->addAction(mToolManager->registerTool(new Eraser(this)));
     toolBar->addAction(mToolManager->registerTool(new TileSelectionTool(this)));
-    toolBar->addSeparator();
-    toolBar->addAction(mToolManager->registerTool(new ObjectSelectionTool(this)));
-    toolBar->addAction(mToolManager->registerTool(new EditPolygonTool(this)));
-    toolBar->addAction(mToolManager->registerTool(rectangleObjectsTool));
-    toolBar->addAction(mToolManager->registerTool(ellipseObjectsTool));
-    toolBar->addAction(mToolManager->registerTool(polygonObjectsTool));
-    toolBar->addAction(mToolManager->registerTool(polylineObjectsTool));
-    toolBar->addAction(mToolManager->registerTool(tileObjectsTool));
-    toolBar->addSeparator();
-    toolBar->addAction(mToolManager->registerTool(new ImageMovementTool(this)));
+    //toolBar->addSeparator();
+    //toolBar->addAction(mToolManager->registerTool(new ObjectSelectionTool(this)));
+    //toolBar->addAction(mToolManager->registerTool(new EditPolygonTool(this)));
+    //toolBar->addAction(mToolManager->registerTool(rectangleObjectsTool));
+    //toolBar->addAction(mToolManager->registerTool(ellipseObjectsTool));
+    //toolBar->addAction(mToolManager->registerTool(polygonObjectsTool));
+    //toolBar->addAction(mToolManager->registerTool(polylineObjectsTool));
+    //toolBar->addAction(mToolManager->registerTool(tileObjectsTool));
+    //toolBar->addSeparator();
+    //toolBar->addAction(mToolManager->registerTool(new ImageMovementTool(this)));
 
     mDocumentManager->setSelectedTool(mToolManager->selectedTool());
     connect(mToolManager, SIGNAL(selectedToolChanged(AbstractTool*)),
@@ -438,8 +438,8 @@ MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags)
     popupMenu->setParent(this);
     mViewsAndToolbarsMenu->setMenu(popupMenu);
     mUi->menuView->insertAction(mUi->actionShowGrid, mViewsAndToolbarsMenu);
-    mUi->menuView->insertAction(mUi->actionShowGrid, mShowTileAnimationEditor);
-    mUi->menuView->insertAction(mUi->actionShowGrid, mShowTileCollisionEditor);
+    //mUi->menuView->insertAction(mUi->actionShowGrid, mShowTileAnimationEditor);
+    //mUi->menuView->insertAction(mUi->actionShowGrid, mShowTileCollisionEditor);
     mUi->menuView->insertSeparator(mUi->actionShowGrid);
 
     connect(mShowTileAnimationEditor, SIGNAL(toggled(bool)),
@@ -475,9 +475,9 @@ MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags)
 
 
     new QShortcut(tr("X"), this, SLOT(flipHorizontally()));
-    new QShortcut(tr("Y"), this, SLOT(flipVertically()));
-    new QShortcut(tr("Z"), this, SLOT(rotateRight()));
-    new QShortcut(tr("Shift+Z"), this, SLOT(rotateLeft()));
+    //new QShortcut(tr("Y"), this, SLOT(flipVertically()));
+    //new QShortcut(tr("Z"), this, SLOT(rotateRight()));
+    //new QShortcut(tr("Shift+Z"), this, SLOT(rotateLeft()));
 
     QShortcut *copyPositionShortcut = new QShortcut(tr("Alt+C"), this);
     connect(copyPositionShortcut, SIGNAL(activated()),
@@ -1567,7 +1567,7 @@ void MainWindow::readSettings()
 void MainWindow::updateWindowTitle()
 {
     if (mMapDocument) {
-        setWindowTitle(tr("[*]%1 - Tiled").arg(mMapDocument->displayName()));
+        setWindowTitle(tr("[*]%1 - Tiled - Sydoria Map Editor").arg(mMapDocument->displayName()));
         setWindowFilePath(mMapDocument->fileName());
         setWindowModified(mMapDocument->isModified());
     } else {

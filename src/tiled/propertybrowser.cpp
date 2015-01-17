@@ -369,7 +369,7 @@ void PropertyBrowser::addMapProperties()
     QtProperty *groupProperty = mGroupManager->addProperty(tr("Map"));
 
     createProperty(SizeProperty, QVariant::Size, tr("Size"), groupProperty)->setEnabled(false);
-    createProperty(TileSizeProperty, QVariant::Size, tr("Tile Size"), groupProperty);
+    createProperty(TileSizeProperty, QVariant::Size, tr("Tile Size"), groupProperty)->setEnabled(false);
 
     QtVariantProperty *orientationProperty =
             createProperty(OrientationProperty,
@@ -379,7 +379,7 @@ void PropertyBrowser::addMapProperties()
 
     orientationProperty->setAttribute(QLatin1String("enumNames"), mOrientationNames);
 
-    createProperty(HexSideLengthProperty, QVariant::Int, tr("Tile Side Length (Hex)"), groupProperty);
+    createProperty(HexSideLengthProperty, QVariant::Int, tr("Tile Side Length (Hex)"), groupProperty)->setEnabled(false);
 
     QtVariantProperty *staggerAxisProperty =
             createProperty(StaggerAxisProperty,
@@ -412,6 +412,12 @@ void PropertyBrowser::addMapProperties()
                            groupProperty);
 
     renderOrderProperty->setAttribute(QLatin1String("enumNames"), mRenderOrderNames);
+
+    orientationProperty->setEnabled(false);
+    staggerAxisProperty->setEnabled(false);
+    staggerIndexProperty->setEnabled(false);
+    layerFormatProperty->setEnabled(false);
+    renderOrderProperty->setEnabled(false);
 
     createProperty(ColorProperty, QVariant::Color, tr("Background Color"), groupProperty);
     addProperty(groupProperty);
@@ -950,6 +956,11 @@ void PropertyBrowser::updateCustomProperties()
                                                      QVariant::String,
                                                      it.key(),
                                                      mCustomPropertiesGroup);
+
+
+        if (it.key().compare(QLatin1Literal("hasHorizontalSymmetry")) == 0)
+            property->setEnabled(false);
+
         property->setValue(it.value());
         updatePropertyColor(it.key());
     }

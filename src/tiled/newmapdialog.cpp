@@ -56,8 +56,7 @@ NewMapDialog::NewMapDialog(QWidget *parent) :
     const int mapWidth = s->value(QLatin1String(MAP_WIDTH_KEY), 100).toInt();
     const int mapHeight = s->value(QLatin1String(MAP_HEIGHT_KEY), 100).toInt();
     const int tileWidth = s->value(QLatin1String(TILE_WIDTH_KEY), 32).toInt();
-    const int tileHeight = s->value(QLatin1String(TILE_HEIGHT_KEY),
-                                    32).toInt();
+    const int tileHeight = s->value(QLatin1String(TILE_HEIGHT_KEY), 32).toInt();
 
     mUi->layerFormat->addItem(QCoreApplication::translate("PreferencesDialog", "XML"));
     mUi->layerFormat->addItem(QCoreApplication::translate("PreferencesDialog", "Base64 (uncompressed)"));
@@ -75,13 +74,21 @@ NewMapDialog::NewMapDialog(QWidget *parent) :
     mUi->orientation->addItem(tr("Isometric (Staggered)"), Map::Staggered);
     mUi->orientation->addItem(tr("Hexagonal (Staggered)"), Map::Hexagonal);
 
-    mUi->orientation->setCurrentIndex(orientation);
-    mUi->layerFormat->setCurrentIndex(prefs->layerDataFormat());
-    mUi->renderOrder->setCurrentIndex(prefs->mapRenderOrder());
-    mUi->mapWidth->setValue(mapWidth);
-    mUi->mapHeight->setValue(mapHeight);
-    mUi->tileWidth->setValue(tileWidth);
-    mUi->tileHeight->setValue(tileHeight);
+    mUi->orientation->setCurrentIndex(Map::Staggered - 1);
+    mUi->layerFormat->setCurrentIndex(0);
+    mUi->renderOrder->setCurrentIndex(3);
+    mUi->mapWidth->setValue(14);
+    mUi->mapHeight->setValue(40);
+    mUi->tileWidth->setValue(86);
+    mUi->tileHeight->setValue(43);
+
+    mUi->orientation->setEnabled(false);
+    mUi->layerFormat->setEnabled(false);
+    mUi->renderOrder->setEnabled(false);
+    mUi->mapWidth->setEnabled(false);
+    mUi->mapHeight->setEnabled(false);
+    mUi->tileWidth->setEnabled(false);
+    mUi->tileHeight->setEnabled(false);
 
     // Make the font of the pixel size label smaller
     QFont font = mUi->pixelSizeLabel->font();

@@ -14,7 +14,7 @@
    <bool>true</bool>
   </property>
   <property name="windowTitle">
-   <string>Tiled</string>
+   <string>Tiled - Sydoria Map Editor</string>
   </property>
   <property name="unifiedTitleAndToolBarOnMac">
    <bool>true</bool>
@@ -41,7 +41,7 @@
      <x>0</x>
      <y>0</y>
      <width>553</width>
-     <height>27</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -235,6 +235,9 @@
    <property name="text">
     <string>&amp;Resize Map...</string>
    </property>
+   <property name="visible">
+    <bool>false</bool>
+   </property>
   </action>
   <action name="actionMapProperties">
    <property name="icon">
@@ -243,6 +246,9 @@
    </property>
    <property name="text">
     <string>Map &amp;Properties</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
    </property>
   </action>
   <action name="actionAutoMap">
@@ -356,6 +362,9 @@
    </property>
    <property name="toolTip">
     <string>Offsets everything in a layer</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
    </property>
   </action>
   <action name="actionPreferences">
