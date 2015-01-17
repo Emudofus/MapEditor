@@ -44,6 +44,9 @@
 #include <QWheelEvent>
 #include <QtCore/qmath.h>
 
+#define TILE_SIZE_WIDTH 200
+#define TILE_SIZE_HEIGHT 200
+
 using namespace Tiled;
 using namespace Tiled::Internal;
 
@@ -219,7 +222,12 @@ void TileDelegate::paint(QPainter *painter,
     const QPixmap &tileImage = tile->image();
     const int extra = mTilesetView->drawGrid() ? 1 : 0;
     const qreal zoom = mTilesetView->scale();
-    const QSize tileSize = tileImage.size() * zoom;
+    QSize tileSize = tileImage.size();
+
+    if (tileSize.width() > TILE_SIZE_WIDTH || tileSize.height() > TILE_SIZE_HEIGHT)
+        tileSize.scale(TILE_SIZE_WIDTH, TILE_SIZE_HEIGHT, Qt::KeepAspectRatio);
+
+    tileSize = tileSize * zoom;
 
     // Compute rectangle to draw the image in: bottom- and left-aligned
     QRect targetRect = option.rect.adjusted(0, 0, -extra, -extra);
@@ -306,7 +314,9 @@ QSize TileDelegate::sizeHint(const QStyleOptionViewItem & /* option */,
     const int extra = mTilesetView->drawGrid() ? 1 : 0;
 
     if (const Tile *tile = m->tileAt(index)) {
-        const QSize tileSize = tile->size() * mTilesetView->scale();
+        QSize tileSize;
+        tileSize.setWidth(TILE_SIZE_WIDTH * mTilesetView->scale());
+        tileSize.setHeight(TILE_SIZE_HEIGHT * mTilesetView->scale());
         return QSize(tileSize.width() + extra,
                      tileSize.height() + extra);
     }
