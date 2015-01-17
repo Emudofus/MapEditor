@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>About Tiled</string>
+   <string>About Tiled - Sydoria Map Editor</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <property name="sizeConstraint">
@@ -44,7 +44,7 @@
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap resource="tiled.qrc">:/images/about-tiled-logo.png</pixmap>
+        <pixmap resource="tiled.qrc">:/images/about-tiled-sydoria-logo.png</pixmap>
        </property>
       </widget>
      </item>

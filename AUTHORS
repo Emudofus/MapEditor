@@ -4,6 +4,7 @@ Thorbjørn Lindeijer <thorbjorn@lindeijer.nl>
 
 Contributors:
 
+Sydoria Games     (modified Tiled version for Dofus 2.x) <luax@sydoria.fr>
 Andrew G. Crowell (added additional ways to access layer related actions)
 Christian Henz    (added handling of non-encoded map data)
 Dennis Honeyman   (implemented the nice about dialog and CSV layer support)
