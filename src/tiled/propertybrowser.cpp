@@ -958,7 +958,7 @@ void PropertyBrowser::updateCustomProperties()
                                                      mCustomPropertiesGroup);
 
 
-        if (it.key().compare(QLatin1Literal("hasHorizontalSymmetry")) == 0)
+        if (it.key().compare(QLatin1Literal("hasHorizontalSymmetry")) == 0 || it.key().compare(QLatin1Literal("gfxId")) == 0)
             property->setEnabled(false);
 
         property->setValue(it.value());
