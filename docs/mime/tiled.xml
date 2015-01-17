@@ -2,7 +2,7 @@
 <mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
   <mime-type type="application/x-tiled-tmx">
     <comment>Tiled map</comment>
-    <generic-icon name="application-x-tiled"/>
+    <generic-icon name="application-x-sydoria"/>
     <glob pattern="*.tmx"/>
     <sub-class-of type="application/xml"/>
   </mime-type>

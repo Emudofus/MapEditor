@@ -148,7 +148,7 @@ int main(int argc, char *argv[])
     TiledApplication a(argc, argv);
 
     a.setOrganizationDomain(QLatin1String("mapeditor.org"));
-    a.setApplicationName(QLatin1String("Tiled"));
+    a.setApplicationName(QLatin1String("Tiled - Sydoria Map Editor"));
 #ifdef BUILD_INFO_VERSION
     a.setApplicationVersion(QLatin1String(AS_STRING(BUILD_INFO_VERSION)));
 #else

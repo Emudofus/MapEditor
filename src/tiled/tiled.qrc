@@ -79,5 +79,9 @@
         <file>images/32x32/tiled.png</file>
         <file>images/24x24/move-image-layer.png</file>
         <file>images/16x16/rename.png</file>
+        <file>images/16x16/application-x-sydoria.png</file>
+        <file>images/16x16/sydoria.png</file>
+        <file>images/32x32/application-x-sydoria.png</file>
+        <file>images/32x32/sydoria.png</file>
     </qresource>
 </RCC>
