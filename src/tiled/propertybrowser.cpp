@@ -474,7 +474,7 @@ void PropertyBrowser::addLayerProperties(QtProperty *parent)
                                                    QLatin1String("Layer Level"),
                                                    parent);
     QStringList layerLevelTypes;
-    layerLevelTypes << tr("ground") << tr("ground additional") << tr("decor") << tr("decor additional");
+    layerLevelTypes << tr("ground") << tr("ground additional") << tr("decor") << tr("decor additional") << tr("extra");
     layerLevel->setAttribute(QLatin1String("enumNames"), layerLevelTypes);
 }
 
