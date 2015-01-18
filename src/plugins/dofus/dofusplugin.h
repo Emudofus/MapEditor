@@ -37,7 +37,7 @@
 
 struct t_element {
     QString elementName;
-    int elementId = -1;
+    int elementId;
     int hue_1;
     int hue_2;
     int hue_3;
@@ -51,13 +51,13 @@ struct t_element {
 };
 
 struct t_cell {
-    int cellId = -1;
+    int cellId;
     int elementsCount;
     QVector<struct t_element> elements;
 };
 
 struct t_layer {
-    int layerId = -1;
+    int layerId;
     int cellsCount;
     QVector<struct t_cell> cells;
 };

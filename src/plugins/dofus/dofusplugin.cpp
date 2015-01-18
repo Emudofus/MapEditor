@@ -119,13 +119,15 @@ bool DofusPlugin::write(const Tiled::Map *map, const QString &fileName)
         layersCount++;
 
         QJsonObject layer = createLayer(mLayers[i].layerId);
-        layer["cellsCount"] = mLayers[i].cellsCount;
         QJsonArray cells;
+        int cellsCount = 0;
 
         for (int cellIndex = 0; cellIndex < mLayers[i].cellsCount; cellIndex++)
         {
             if (mLayers[i].cells[cellIndex].elementsCount == 0)
                 continue;
+
+            cellsCount++;
 
             QJsonObject cell = createCell(mLayers[i].cells[cellIndex].cellId);
             cell["elementsCount"] = mLayers[i].cells[cellIndex].elementsCount;
@@ -142,6 +144,7 @@ bool DofusPlugin::write(const Tiled::Map *map, const QString &fileName)
             cells.append(cell);
         }
 
+        layer["cellsCount"] = cellsCount;
         layer["cells"] = cells;
         layers.append(layer);
     }
