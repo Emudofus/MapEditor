@@ -500,6 +500,8 @@ void MapWriterPrivate::writeLayerAttributes(QXmlStreamWriter &w,
         w.writeAttribute(QLatin1String("visible"), QLatin1String("0"));
     if (opacity != qreal(1))
         w.writeAttribute(QLatin1String("opacity"), QString::number(opacity));
+
+    w.writeAttribute(QLatin1String("level"), QString::number(layer->level()));
 }
 
 void MapWriterPrivate::writeObjectGroup(QXmlStreamWriter &w,
