@@ -85,15 +85,17 @@ bool DofusPlugin::write(const Tiled::Map *map, const QString &fileName)
     json["presetId"] = -1;
     json["foregroundsCount"] = 0; // TODO
     json["backgroundsCount"] = 0; // TODO
-    json["backgroundRed"] = 0; // TODO
-    json["backgroundGreen"] = 0; // TODO
-    json["backgroundBlue"] = 0; // TODO
+    json["backgroundRed"] = map->backgroundColor().red();
+    json["backgroundGreen"] = map->backgroundColor().green();
+    json["backgroundBlue"] = map->backgroundColor().blue();
     json["backgroundColor"] = 0; // Needed ?
     json["backgroundFixtures"] = QJsonArray(); // TODO
     json["foregroundsFixtures"] = QJsonArray(); // TODO
     json["unknown_1"] = 0;
     json["groundCRC"] = 0; // How to calcul it ?
     json["layersCount"] = map->layerCount(); // Not correct
+
+
 
     QJsonArray layers;
 

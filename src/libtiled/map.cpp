@@ -51,6 +51,7 @@ Map::Map(Orientation orientation,
     mHexSideLength(0),
     mStaggerAxis(StaggerY),
     mStaggerIndex(StaggerOdd),
+    mBackgroundColor(QColor(128, 128, 128)),
     mLayerDataFormat(Base64Zlib),
     mNextObjectId(1)
 {

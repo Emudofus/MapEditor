@@ -248,7 +248,7 @@
     <string>Map &amp;Properties</string>
    </property>
    <property name="visible">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
   </action>
   <action name="actionAutoMap">
