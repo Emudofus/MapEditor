@@ -95,7 +95,7 @@ bool DofusPlugin::write(const Tiled::Map *map, const QString &fileName)
     json["foregroundsFixtures"] = QJsonArray(); // TODO
     json["unknown_1"] = 0;
     json["groundCRC"] = 0; // How to calcul it ?
-    json["layersCount"] = map->layerCount(); // Not correct
+    json["layersCount"] = 0;
 
     for (int i = 0; i < 4; i++)
     {
@@ -109,11 +109,14 @@ bool DofusPlugin::write(const Tiled::Map *map, const QString &fileName)
     }
 
     QJsonArray layers;
+    int layersCount = 0;
 
     for (int i = 0; i < 4; i++)
     {
         if (mLayers[i].cellsCount == 0)
             continue;
+
+        layersCount++;
 
         QJsonObject layer = createLayer(mLayers[i].layerId);
         layer["cellsCount"] = mLayers[i].cellsCount;
@@ -143,7 +146,16 @@ bool DofusPlugin::write(const Tiled::Map *map, const QString &fileName)
         layers.append(layer);
     }
 
+    json["layersCount"] = layersCount;
     json["layers"] = layers;
+
+    json["cellsCount"] = 560; // map->width() * map->height();
+    QJsonArray cells;
+
+    for (int i = 0; i < 560; i++)
+        cells.append(createCellData());
+
+    json["cells"] = cells;
 
     QJsonDocument output(json);
     file.write(output.toJson());
@@ -192,6 +204,20 @@ QJsonObject DofusPlugin::createElement(int elementId)
     element["identifier"] = 0;
 
     return element;
+}
+
+QJsonObject DofusPlugin::createCellData()
+{
+    QJsonObject cellData;
+
+    cellData["floor"] = 0;
+    cellData["losmov"] = 67; // ??
+    cellData["speed"] = 0;
+    cellData["mapChangeData"] = 0; // Triger ?
+    cellData["moveZone"] = 0;
+    cellData["tmpBits"] = 0;
+
+    return cellData;
 }
 
 void DofusPlugin::writeLayer(Layer *layer)
