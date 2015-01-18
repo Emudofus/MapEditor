@@ -94,8 +94,7 @@ private:
     QJsonObject createCellData();
     void writeLayer(Tiled::Layer* layer);
     void writeCell(Tiled::Cell* cell, int layerId, int cellId);
-    void writeElement(Tiled::Tile* tile, int layerId, int cellIndex);
-
+    void writeElement(Tiled::Tile* tile, int layerId, int cellIndex, bool flippedHorizontally);
 };
 
 } // namespace Dofus

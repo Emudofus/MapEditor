@@ -34,8 +34,6 @@
 #include <QStringList>
 #include <QTextStream>
 
-
-
 #include <QDebug>
 
 using namespace Dofus;
@@ -214,9 +212,9 @@ QJsonObject DofusPlugin::createCellData()
     QJsonObject cellData;
 
     cellData["floor"] = 0;
-    cellData["losmov"] = 67; // ??
+    cellData["losmov"] = 0; // walk-blocked cell
     cellData["speed"] = 0;
-    cellData["mapChangeData"] = 0; // Triger ?
+    cellData["mapChangeData"] = 0;
     cellData["moveZone"] = 0;
     cellData["tmpBits"] = 0;
 
@@ -266,15 +264,20 @@ void DofusPlugin::writeCell(Cell *cell, int layerId, int cellId)
         index = mLayers[layerId].cells.size() - 1;
     }
 
-    writeElement(cell->tile, layerId, index);
+    writeElement(cell->tile, layerId, index, cell->flippedHorizontally);
     mLayers[layerId].cells[index].elementsCount = mLayers[layerId].cells[index].elements.size();
 }
 
-void DofusPlugin::writeElement(Tile *tile, int layerId, int cellIndex)
+void DofusPlugin::writeElement(Tile *tile, int layerId, int cellIndex, bool flippedHorizontally)
 {
     if (tile)
     {
-        int elementId = tile->property(QLatin1String("elementId")).toInt();
+        int elementId = 0;
+
+        if (flippedHorizontally)
+            elementId = tile->property(QLatin1String("elementIdSymmetry")).toInt();
+        else
+            elementId = tile->property(QLatin1String("elementId")).toInt();
 
         if (elementId > 0)
         {
