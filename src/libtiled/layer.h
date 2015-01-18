@@ -92,6 +92,16 @@ public:
     void setOpacity(float opacity) { mOpacity = opacity; }
 
     /**
+     * Returns the level of this layer.
+     */
+    int level() const { return mLevel; }
+
+    /**
+     * Sets the level of this layer.
+     */
+    void setLevel(int level) { mLevel = level; }
+
+    /**
      * Returns the visibility of this layer.
      */
     bool isVisible() const { return mVisible; }
@@ -225,6 +235,7 @@ protected:
     int mWidth;
     int mHeight;
     float mOpacity;
+    int mLevel;
     bool mVisible;
     Map *mMap;
 };

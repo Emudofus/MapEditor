@@ -119,7 +119,8 @@ private:
         DrawOrderProperty,
         TileOffsetProperty,
         IdProperty,
-        CustomProperty
+        CustomProperty,
+        LevelProperty
     };
 
     void addMapProperties();

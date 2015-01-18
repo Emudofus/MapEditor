@@ -51,6 +51,29 @@ private:
     bool mVisible;
 };
 
+class SetLayerLevel : public QUndoCommand
+{
+public:
+    SetLayerLevel(MapDocument *mapDocument,
+                  int layerIndex,
+                  int layerLevel);
+
+    void undo() { setLayerLevel(mOldLayerLevel); }
+    void redo() { setLayerLevel(mNewLayerLevel); }
+
+    int id() const { return Cmd_ChangeLayerLevel; }
+
+    bool mergeWith(const QUndoCommand *other);
+
+private:
+    void setLayerLevel(int layerLevel);
+
+    MapDocument *mMapDocument;
+    int mLayerIndex;
+    int mOldLayerLevel;
+    int mNewLayerLevel;
+};
+
 /**
  * Used for changing layer opacity.
  */

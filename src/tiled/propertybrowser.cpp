@@ -468,6 +468,14 @@ void PropertyBrowser::addLayerProperties(QtProperty *parent)
     opacityProperty->setAttribute(QLatin1String("minimum"), 0.0);
     opacityProperty->setAttribute(QLatin1String("maximum"), 1.0);
     opacityProperty->setAttribute(QLatin1String("singleStep"), 0.1);
+
+    QtVariantProperty *layerLevel = createProperty(LevelProperty,
+                                                   QtVariantPropertyManager::enumTypeId(),
+                                                   QLatin1String("Layer Level"),
+                                                   parent);
+    QStringList layerLevelTypes;
+    layerLevelTypes << tr("ground") << tr("ground additional") << tr("decor") << tr("decor additional");
+    layerLevel->setAttribute(QLatin1String("enumNames"), layerLevelTypes);
 }
 
 void PropertyBrowser::addTileLayerProperties()
@@ -687,6 +695,9 @@ void PropertyBrowser::applyLayerValue(PropertyId id, const QVariant &val)
     case OpacityProperty:
         command = new SetLayerOpacity(mMapDocument, layerIndex, val.toDouble());
         break;
+    case LevelProperty:
+        command = new SetLayerLevel(mMapDocument, layerIndex, val.toInt());
+        break;
     default:
         switch (layer->layerType()) {
         case Layer::TileLayerType:   applyTileLayerValue(id, val);   break;
@@ -879,6 +890,7 @@ void PropertyBrowser::updateProperties()
         mIdToProperty[NameProperty]->setValue(layer->name());
         mIdToProperty[VisibleProperty]->setValue(layer->isVisible());
         mIdToProperty[OpacityProperty]->setValue(layer->opacity());
+        mIdToProperty[LevelProperty]->setValue(layer->level());
 
         switch (layer->layerType()) {
         case Layer::TileLayerType:
@@ -952,13 +964,19 @@ void PropertyBrowser::updateCustomProperties()
 
     while (it.hasNext()) {
         it.next();
+
         QtVariantProperty *property = createProperty(CustomProperty,
                                                      QVariant::String,
                                                      it.key(),
                                                      mCustomPropertiesGroup);
 
+        QList<QString> readOnly;
+        readOnly.append(QLatin1String("hasHorizontalSymmetry"));
+        readOnly.append(QLatin1String("gfxId"));
+        readOnly.append(QLatin1String("elementId"));
+        readOnly.append(QLatin1String("elementIdSymmetry"));
 
-        if (it.key().compare(QLatin1Literal("hasHorizontalSymmetry")) == 0 || it.key().compare(QLatin1Literal("gfxId")) == 0)
+        if (readOnly.contains(it.key()))
             property->setEnabled(false);
 
         property->setValue(it.value());

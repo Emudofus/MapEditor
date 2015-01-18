@@ -199,6 +199,13 @@ void LayerModel::setLayerOpacity(int layerIndex, float opacity)
     emit layerChanged(layerIndex);
 }
 
+void LayerModel::setLayerLevel(int layerIndex, int level)
+{
+    Layer *layer = mMap->layerAt(layerIndex);
+    layer->setLevel(level);
+    emit layerChanged(layerIndex);
+}
+
 void LayerModel::renameLayer(int layerIndex, const QString &name)
 {
     emit layerAboutToBeRenamed(layerIndex);

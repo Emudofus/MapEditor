@@ -128,6 +128,11 @@ public:
     void setLayerOpacity(int layerIndex, float opacity);
 
     /**
+     * Sets the level of the layer at the given index.
+     */
+    void setLayerLevel(int layerIndex, int level);
+
+    /**
      * Renames the layer at the given index.
      */
     void renameLayer(int index, const QString &name);

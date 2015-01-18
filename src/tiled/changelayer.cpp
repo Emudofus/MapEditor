@@ -54,6 +54,35 @@ void SetLayerVisible::swap()
 }
 
 
+SetLayerLevel::SetLayerLevel(MapDocument *mapDocument,
+                             int layerIndex,
+                             int layerLevel)
+    : mMapDocument(mapDocument)
+    , mLayerIndex(layerIndex)
+    , mOldLayerLevel(mMapDocument->map()->layerAt(layerIndex)->level())
+    , mNewLayerLevel(layerLevel)
+{
+    setText(QCoreApplication::translate("Undo Commands",
+                                            "Change Layer Level"));
+}
+
+bool SetLayerLevel::mergeWith(const QUndoCommand *other)
+{
+    const SetLayerLevel *o = static_cast<const SetLayerLevel*>(other);
+    if (!(mMapDocument == o->mMapDocument &&
+          mLayerIndex == o->mLayerIndex))
+        return false;
+
+    mNewLayerLevel = o->mNewLayerLevel;
+    return true;
+}
+
+void SetLayerLevel::setLayerLevel(int layerLevel)
+{
+    mMapDocument->layerModel()->setLayerLevel(mLayerIndex, layerLevel);
+}
+
+
 SetLayerOpacity::SetLayerOpacity(MapDocument *mapDocument,
                                  int layerIndex,
                                  float opacity)

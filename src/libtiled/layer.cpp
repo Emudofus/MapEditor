@@ -46,6 +46,7 @@ Layer::Layer(TypeFlag type, const QString &name, int x, int y,
     mWidth(width),
     mHeight(height),
     mOpacity(1.0f),
+    mLevel(0),
     mVisible(true),
     mMap(0)
 {
@@ -65,6 +66,7 @@ Layer::Layer(TypeFlag type, const QString &name, int x, int y,
 Layer *Layer::initializeClone(Layer *clone) const
 {
     clone->mOpacity = mOpacity;
+    clone->mLevel = mLevel;
     clone->mVisible = mVisible;
     clone->setProperties(properties());
     return clone;
