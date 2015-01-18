@@ -185,15 +185,16 @@ MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags)
     addDockWidget(Qt::RightDockWidgetArea, mLayerDock);
     addDockWidget(Qt::LeftDockWidgetArea, undoDock);
     addDockWidget(Qt::LeftDockWidgetArea, mMapsDock);
-    addDockWidget(Qt::RightDockWidgetArea, mObjectsDock);
+    //addDockWidget(Qt::RightDockWidgetArea, mObjectsDock);
     addDockWidget(Qt::RightDockWidgetArea, mMiniMapDock);
     addDockWidget(Qt::RightDockWidgetArea, mTerrainDock);
     addDockWidget(Qt::RightDockWidgetArea, mTilesetDock);
     addDockWidget(Qt::RightDockWidgetArea, propertiesDock);
     addDockWidget(Qt::RightDockWidgetArea, mConsoleDock);
 
-    tabifyDockWidget(mMiniMapDock, mObjectsDock);
-    tabifyDockWidget(mObjectsDock, mLayerDock);
+    /*tabifyDockWidget(mMiniMapDock, mObjectsDock);
+    tabifyDockWidget(mObjectsDock, mLayerDock);*/
+    tabifyDockWidget(mMiniMapDock, mLayerDock);
     tabifyDockWidget(mTerrainDock, mTilesetDock);
     tabifyDockWidget(undoDock, mMapsDock);
 
@@ -1613,7 +1614,7 @@ void MainWindow::mapDocumentChanged(MapDocument *mapDocument)
 
     mActionHandler->setMapDocument(mapDocument);
     mLayerDock->setMapDocument(mapDocument);
-    mObjectsDock->setMapDocument(mapDocument);
+    //mObjectsDock->setMapDocument(mapDocument);
     mTilesetDock->setMapDocument(mapDocument);
     mTerrainDock->setMapDocument(mapDocument);
     mMiniMapDock->setMapDocument(mapDocument);
