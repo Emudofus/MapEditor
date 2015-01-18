@@ -24,8 +24,6 @@
 #include "map.h"
 #include "mapobject.h"
 #include "mapreader.h"
-#include "tile.h"
-#include "tilelayer.h"
 #include "tileset.h"
 #include "objectgroup.h"
 
@@ -36,9 +34,7 @@
 #include <QStringList>
 #include <QTextStream>
 
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonArray>
+
 
 #include <QDebug>
 
@@ -61,7 +57,13 @@ QString DofusPlugin::errorString() const
 
 bool DofusPlugin::write(const Tiled::Map *map, const QString &fileName)
 {
-    //GidMapper gidMapper(map->tilesets());
+    QFile file(fileName);
+    if (!file.open(QFile::WriteOnly | QFile::Text)) {
+        mError = tr("Could not open file for writing.");
+        return false;
+    }
+
+    mMap = map;
     QJsonObject json;
 
     json["header"] = 77;
@@ -95,28 +97,163 @@ bool DofusPlugin::write(const Tiled::Map *map, const QString &fileName)
     json["groundCRC"] = 0; // How to calcul it ?
     json["layersCount"] = map->layerCount(); // Not correct
 
+    for (int i = 0; i < 4; i++)
+    {
+        mLayers[i].layerId = i;
+        mLayers[i].cellsCount = 0;
+    }
 
+    foreach (Layer *layer, map->layers())
+    {
+        writeLayer(layer);
+    }
 
     QJsonArray layers;
 
-    foreach (Layer *layer, map->layers()) {
+    for (int i = 0; i < 4; i++)
+    {
+        if (mLayers[i].cellsCount == 0)
+            continue;
 
-        layer->hasProperty("level");
+        QJsonObject layer = createLayer(mLayers[i].layerId);
+        layer["cellsCount"] = mLayers[i].cellsCount;
+        QJsonArray cells;
 
-        if (TileLayer *tileLayer = layer->asTileLayer()) {
-            Cell cell = tileLayer->cellAt(0, 0);
-            if (cell.tile) {
-                qDebug() << cell.tile->property(QLatin1String("elementId"));
+        for (int cellIndex = 0; cellIndex < mLayers[i].cellsCount; cellIndex++)
+        {
+            if (mLayers[i].cells[cellIndex].elementsCount == 0)
+                continue;
+
+            QJsonObject cell = createCell(mLayers[i].cells[cellIndex].cellId);
+            cell["elementsCount"] = mLayers[i].cells[cellIndex].elementsCount;
+            cell["elements"] = QJsonArray();
+            QJsonArray elements;
+
+            for (int elementIndex = 0; elementIndex < mLayers[i].cells[cellIndex].elementsCount; elementIndex++)
+            {
+                QJsonObject element = createElement(mLayers[i].cells[cellIndex].elements[elementIndex].elementId);
+                elements.append(element);
             }
+
+            cell["elements"] = elements;
+            cells.append(cell);
         }
+
+        layer["cells"] = cells;
+        layers.append(layer);
     }
 
     json["layers"] = layers;
 
     QJsonDocument output(json);
-    qDebug() << output.toJson();
+    file.write(output.toJson());
+    file.close();
 
     return true;
+}
+
+QJsonObject DofusPlugin::createLayer(int layerId)
+{
+    QJsonObject layer;
+
+    layer["layerId"] = layerId;
+    layer["cellsCount"] = 0;
+    layer["cells"] = QJsonArray();
+
+    return layer;
+}
+
+QJsonObject DofusPlugin::createCell(int cellId)
+{
+    QJsonObject cell;
+
+    cell["cellId"] = cellId;
+    cell["elementsCount"] = 0;
+    cell["elements"] = QJsonArray();
+
+    return cell;
+}
+
+QJsonObject DofusPlugin::createElement(int elementId)
+{
+    QJsonObject element;
+
+    element["elementName"] = "Graphical";
+    element["elementId"] = elementId;
+    element["hue_1"] = 0;
+    element["hue_2"] = 0;
+    element["hue_3"] = 0;
+    element["shadow_1"] = 0;
+    element["shadow_2"] = 0;
+    element["shadow_3"] = 0;
+    element["offsetX"] = 0;
+    element["offsetY"] = 0;
+    element["altitude"] = 0;
+    element["identifier"] = 0;
+
+    return element;
+}
+
+void DofusPlugin::writeLayer(Layer *layer)
+{
+    if (TileLayer *tileLayer = layer->asTileLayer())
+    {
+        int cellId = 0;
+
+        for (int y = 0; y < mMap->height(); y++)
+        {
+            for (int x = 0; x < mMap->width(); x++)
+            {
+                Cell cell = tileLayer->cellAt(x, y);
+
+                writeCell(&cell, layer->level(), cellId);
+                mLayers[layer->level()].cellsCount = mLayers[layer->level()].cells.size();
+
+                cellId++;
+            }
+        }
+    }
+}
+
+void DofusPlugin::writeCell(Cell *cell, int layerId, int cellId)
+{
+    int index = -1;
+
+    for (int i = 0; i < mLayers[layerId].cells.size(); i++)
+    {
+        if (mLayers[layerId].cells[i].cellId == cellId)
+        {
+            index = i;
+            break;
+        }
+    }
+
+    if (index == -1)
+    {
+        struct t_cell newCell;
+        newCell.cellId = cellId;
+        newCell.elementsCount = 0;
+        mLayers[layerId].cells.append(newCell);
+        index = mLayers[layerId].cells.size() - 1;
+    }
+
+    writeElement(cell->tile, layerId, index);
+    mLayers[layerId].cells[index].elementsCount = mLayers[layerId].cells[index].elements.size();
+}
+
+void DofusPlugin::writeElement(Tile *tile, int layerId, int cellIndex)
+{
+    if (tile)
+    {
+        int elementId = tile->property(QLatin1String("elementId")).toInt();
+
+        if (elementId > 0)
+        {
+            struct t_element newElement;
+            newElement.elementId = elementId;
+            mLayers[layerId].cells[cellIndex].elements.append(newElement);
+        }
+    }
 }
 
 #if QT_VERSION < 0x050000

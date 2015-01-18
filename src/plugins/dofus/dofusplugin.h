@@ -24,9 +24,43 @@
 #include "dofus_global.h"
 
 #include "mapwriterinterface.h"
+#include "layer.h"
+#include "tilelayer.h"
+#include "tile.h"
 
+#include <QVector>
 #include <QObject>
 #include <QMap>
+#include <QJsonObject>
+#include <QJsonDocument>
+#include <QJsonArray>
+
+struct t_element {
+    QString elementName;
+    int elementId = -1;
+    int hue_1;
+    int hue_2;
+    int hue_3;
+    int shadow_1;
+    int shadow_2;
+    int shadow_3;
+    int offsetX;
+    int offsetY;
+    int altitude;
+    int identifier;
+};
+
+struct t_cell {
+    int cellId = -1;
+    int elementsCount;
+    QVector<struct t_element> elements;
+};
+
+struct t_layer {
+    int layerId = -1;
+    int cellsCount;
+    QVector<struct t_cell> cells;
+};
 
 namespace Dofus {
 
@@ -51,6 +85,16 @@ public:
 
 private:
     QString mError;
+    const Tiled::Map* mMap;
+    QMap<int, struct t_layer> mLayers;
+
+    QJsonObject createLayer(int layerId);
+    QJsonObject createCell(int cellId);
+    QJsonObject createElement(int elementId);
+    void writeLayer(Tiled::Layer* layer);
+    void writeCell(Tiled::Cell* cell, int layerId, int cellId);
+    void writeElement(Tiled::Tile* tile, int layerId, int cellIndex);
+
 };
 
 } // namespace Dofus
