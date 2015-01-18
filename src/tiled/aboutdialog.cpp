@@ -35,7 +35,7 @@ AboutDialog::AboutDialog(QWidget *parent): QDialog(parent)
     const QString html = QCoreApplication::translate(
             "AboutDialog",
             "<p align=\"center\"><font size=\"+2\"><b>Tiled - Sydoria Map Editor</b></font><br><i>Version %1</i></p>\n"
-            "<p align=\"center\">Copyright 2008-2014 Thorbj&oslash;rn Lindeijer<br>Copyright 2014-2015 Sydoria Games<br><br>(see the AUTHORS file for a full list of contributors)</p>\n"
+            "<p align=\"center\">Copyright 2008-2014 Thorbj&oslash;rn Lindeijer<br>Copyright 2014-2015 Sydoria Games<br><br>see the AUTHORS file for a full list of contributors<br>see the COPYING for license information</p>\n"
             "<p align=\"center\"><a href=\"http://www.mapeditor.org/\">http://www.mapeditor.org/</a><br><a href=\"http://www.sydoria.fr/\">http://www.sydoria.fr/</a></p>\n")
             .arg(QApplication::applicationVersion());
 
