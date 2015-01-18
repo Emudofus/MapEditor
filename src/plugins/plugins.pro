@@ -6,7 +6,8 @@ SUBDIRS = csv \
           lua \
           replicaisland \
           tengine \
-          tmw
+          tmw \
+          dofus
 
 include(python/find_python.pri)
 
