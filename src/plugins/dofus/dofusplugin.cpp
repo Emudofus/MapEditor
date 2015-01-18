@@ -212,7 +212,7 @@ QJsonObject DofusPlugin::createCellData()
     QJsonObject cellData;
 
     cellData["floor"] = 0;
-    cellData["losmov"] = 0; // walk-blocked cell
+    cellData["losmov"] = 67; // TODO: walk-blocked cell, 0 = blocked
     cellData["speed"] = 0;
     cellData["mapChangeData"] = 0;
     cellData["moveZone"] = 0;
